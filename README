@@ -1,0 +1,25 @@
+QIBA - Quantum Inject Backdoor POC
+
+This is a proof-of-concept backdoor which utilizes the NSA quantum inject (QI) technique and IP spoofing.
+Please be aware that this is just a POC and not directly usable. The goal of this is to
+demonstrate an idea and proof that it works.
+
+
+The main goal for this backdoor / concept is to still collect valuable information after being kicked out
+of a network or after the blue team has restricted access to the host in an imperfect way.
+
+The following list gives an overview of the operations involved:
+
+1 infected_client <--ControlConnection--> whitelisted_host
+2 infected_client --leak seq/ack of ControlConnection via whitelisted_host --> ExfilHost
+3 ExfilHost --QuantumInject command into ControlConnection--> infected_client
+4 infected_client --leak command results via whitelisted_host-->Exfilhost
+
+The above could of course also be implemented with just IP spoofing but as far as I know
+that would generate a lot more RST packets and i needed a reason to use QI :p
+
+Pre-requisites
+- root or equivalent access on the infected client
+- ability to send spoofed packets
+- hope the whitelisted_host doesn't IP restrict it's own traffic
+- hope the whitelisted_host doesn't port restrict it's own traffic
